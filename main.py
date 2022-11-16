@@ -1,6 +1,17 @@
 from tkinter import *
 import customtkinter
 from PIL import Image,ImageTk
+from tkinter import ttk
+
+#importar barra de progresso
+from tkinter.ttk import Progressbar
+
+#importar matplotlib (graficos)
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib as plt
+from matplotlib.figure import Figure
+
+
 root = Tk()
 
 root.title()
@@ -26,4 +37,19 @@ app_image = ImageTk.PhotoImage(app_image)
 app_logo = Label(frameTop, image=app_image, text="Orçamento Pessoal",width=900,compound=LEFT,padx=5,relief=RAISED,anchor=NW,font=('Roboto 18 bold'),bg='white')
 app_logo.place(x=0,y=0)
 
+
+#percentual --
+def percentual():
+    lbl_nome = Label(frameMid, text="Percentual Gasto",height=1,anchor=NW,font=('Verdana 14',),bg='#F5F5F5')
+    lbl_nome.place(x=60,y=5),
+
+
+    bar =  customtkinter.CTkProgressBar(frameMid,height=20,progress_color='lightblue')
+    bar.place(x=10,y=35)
+    bar['value']= 50
+
+    valor = 50
+    lbl_porcentagem = Label(frameMid,text='{:,.2f}%'.format(valor),height=1,anchor=NW,font=('verdana 12'),bg='#F5F5F5')
+    lbl_porcentagem.place(x=220,y=35)
+percentual()
 root.mainloop()
