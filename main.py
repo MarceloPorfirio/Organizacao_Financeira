@@ -55,7 +55,7 @@ def percentual():
 
 def grafBar():
     lista_categorias = ['Renda','Despesas','Saldo']
-    lista_valores = ['3000','2000','6236']
+    lista_valores = [3000,2000,6236]
 
     figura = plt.figure(figsize=(4,3.45),dpi=60)
     ax = figura.add_subplot(111)
@@ -83,13 +83,37 @@ def grafBar():
     ax.spines['left'].set_visible(False)
     ax.tick_params(bottom=False, left=False)
     ax.set_axisbelow(True)
-    ax.yaxis.grid(False, color='#EEEEEE')
+    ax.yaxis.grid(False)
     ax.xaxis.grid(False)
 
     canva = FigureCanvasTkAgg(figura, frameMid)
     canva.get_tk_widget().place(x=10, y=70)
 
+def resumo():
+    valor = [500,600,420]
+
+    l_linha = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
+    l_linha.place(x=309, y=52)
+    l_renda = Label(frameMid,text='Total Renda Mensal      '.upper(),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
+    l_renda.place(x=309, y=35)
+    l_valor_renda = Label(frameMid,text='R$ {:,.2f}'.format(valor[0]),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
+    l_valor_renda.place(x=309, y=65)
+
+    l_linha2 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
+    l_linha2.place(x=309, y=132)
+    l_despesas = Label(frameMid,text='Total Despesas Mensais      '.upper(),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
+    l_despesas.place(x=309, y=115)
+    l_valor_despesa = Label(frameMid,text='R$ {:,.2f}'.format(valor[1]),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
+    l_valor_despesa.place(x=309, y=150)
+
+    l_linha3 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
+    l_linha3.place(x=309, y=207)
+    l_saldo = Label(frameMid,text='Total Saldo Mensal      '.upper(),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
+    l_saldo.place(x=309, y=190)
+    l_valor_saldo = Label(frameMid,text='R$ {:,.2f}'.format(valor[2]),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
+    l_valor_saldo.place(x=309, y=220)
 
 percentual()
 grafBar()
+resumo()
 root.mainloop()
