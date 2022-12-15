@@ -30,6 +30,10 @@ frameMid.grid(row=1,column=0,pady=1,padx=5,sticky=W)
 frameDown =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='#F5F5F5', width=890,height=240,relief = 'flat',border_width=1,border_color='#DCDCDC')
 frameDown.grid(row=2,column=0,pady=1,padx=5,sticky=W)
 
+frame_gra_pie = Frame(frameMid, width=580, height=250)
+frame_gra_pie.place(x=415, y=5)
+
+
 
 app_image = Image.open('iconDin.jpg')
 app_image = app_image.resize((35,35))
@@ -113,7 +117,27 @@ def resumo():
     l_valor_saldo = Label(frameMid,text='R$ {:,.2f}'.format(valor[2]),anchor=NW, font=('verdana 12'),bg='#F5F5F5')
     l_valor_saldo.place(x=309, y=220)
 
+def grafico_pie():
+    figura = plt.Figure(figsize=(5,3), dpi=90)
+    ax = figura.add_subplot(111)
+
+    lista_valores = [345,225,534]
+    lista_despesas = ['Renda','Despesa','Saldo']
+
+     # only "explode" the 2nd slice (i.e. 'Hogs')
+
+    explode = []
+    for i in lista_valores:
+        explode.append(0.05)
+
+    ax.pie(lista_valores, explode=explode, wedgeprops=dict(width=0.2), autopct='%1.1f%%',shadow=True, startangle=90,bg='#545454')
+    ax.legend(lista_valores, loc="center right", bbox_to_anchor=(1.55, 0.50))
+
+    canva_categoria = FigureCanvasTkAgg(figura, frame_gra_pie)
+    canva_categoria.get_tk_widget().grid(row=0, column=0)
+
 percentual()
 grafBar()
 resumo()
+grafico_pie()
 root.mainloop()
