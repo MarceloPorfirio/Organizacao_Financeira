@@ -11,23 +11,26 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib as plt
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-
+from tkcalendar import Calendar, DateEntry
+from datetime import date
 
 root = Tk()
 
 root.title()
-root.geometry('900x650')
+root.geometry('900x600')
 root.configure(background='#e9edf5')
 root.resizable(width=FALSE, height=FALSE)
+
+colors = ['#5588bb', '#66bbbb','#99bb55', '#ee9944', '#444466', '#bb5555']
 
 #Frame top
 frameTop =  customtkinter.CTkFrame(root,fg_color='white', width=1043,height=40,relief = 'flat',border_width=1,border_color='#DCDCDC')
 frameTop.grid(row=0,column=0,pady=1)
 
-frameMid =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=890,height=350,relief = 'raised',border_width=1,border_color='#DCDCDC')
+frameMid =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=890,height=300,relief = 'raised',border_width=1,border_color='#DCDCDC')
 frameMid.grid(row=1,column=0,pady=1,padx=5,sticky=W)
 
-frameDown =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=890,height=240,relief = 'flat',border_width=1,border_color='#DCDCDC')
+frameDown =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=890,height=300,relief = 'flat',border_width=1,border_color='#DCDCDC')
 frameDown.grid(row=2,column=0,pady=1,padx=5,sticky=W)
 
 frame_gra_pie = Frame(frameMid, width=580, height=250)
@@ -63,14 +66,14 @@ def grafBar():
 
     figura = plt.figure(figsize=(4,3.45),dpi=60)
     ax = figura.add_subplot(111)
-    ax.bar(lista_categorias,lista_valores, color='red',width=0.9)
+    ax.bar(lista_categorias,lista_valores, color=colors,width=0.9)
 
     c = 0
 
     for i in ax.patches:
         # get_x pulls left or right; get_height pushes up or down
         ax.text(i.get_x()-.001, i.get_height()+.5,
-                str("{:,.0f}".format(lista_valores[c])), fontsize=17, fontstyle='italic',  verticalalignment='bottom',color='#F5F5F5')
+                str("{:,.0f}".format(lista_valores[c])), fontsize=17, fontstyle='italic',  verticalalignment='bottom')
 
         c += 1
 
@@ -120,18 +123,18 @@ def resumo():
 def grafico_pie():
     figura = plt.Figure(figsize=(5,3), dpi=90)
     ax = figura.add_subplot(111)
-
     lista_valores = [345,225,534]
-    lista_despesas = ['Renda','Despesa','Saldo']
+    lista_categorias = ['Renda','Despesa','Saldo']
 
      # only "explode" the 2nd slice (i.e. 'Hogs')
 
     explode = []
-    for i in lista_valores:
+    for i in lista_categorias:
         explode.append(0.05)
 
     ax.pie(lista_valores, explode=explode, wedgeprops=dict(width=0.2), autopct='%1.1f%%',shadow=True, startangle=90)
-    ax.legend(lista_valores, loc="center right", bbox_to_anchor=(1.55, 0.50))
+    ax.legend(lista_categorias
+    , loc="center right", bbox_to_anchor=(1.55, 0.50))
 
     canva_categoria = FigureCanvasTkAgg(figura, frame_gra_pie)
     canva_categoria.get_tk_widget().grid(row=0, column=0)
@@ -139,20 +142,20 @@ def grafico_pie():
 #-------------------------------------------------------------------------------------------------------------------------------#
 
 # Frames para tabelas de baixo #
-frame_renda = Frame(frameDown, width=300, height=230,bg='white')
+frame_renda = Frame(frameDown, width=296, height=230,bg='white')
 frame_renda.grid(row=0,column=0,padx=5,pady=5)
 
-frame_operacoes = Frame(frameDown, width=220, height=230,bg='white')
+frame_operacoes = Frame(frameDown, width=280, height=230,bg='white')
 frame_operacoes.grid(row=0,column=1, padx=5)
 
-frame_configuracao = Frame(frameDown, width=220, height=230,bg='white')
+frame_configuracao = Frame(frameDown, width=232, height=230,bg='white')
 frame_configuracao.grid(row=0,column=2, padx=5)
 
 # funcao para mostrar_renda
 def mostrar_renda():
 
     # creating a treeview with dual scrollbars
-    tabela_head = ['#Id','Categoria','Data','Quantia']
+    tabela_head = ['#Id','Categoria','Data','Valor']
 
     lista_itens = [[0,2,3,4],[0,2,3,4],[0,2,3,4],[0,2,3,4]]
     
@@ -183,6 +186,97 @@ def mostrar_renda():
 
     for item in lista_itens:
         tree.insert('', 'end', values=item)
+
+# Configurações de despesas
+
+l_descricao = Label(frame_operacoes,text= 'Insira novas despesas', height=1,anchor=NW,font=('verdana 10 bold'),bg='white')
+l_descricao.place(x=10,y=5)
+
+
+# Adicionar categoria
+l_categoria = Label(frame_operacoes,text= 'Categoria', height=1,anchor=NW,font=('verdana 10'),bg='white')
+l_categoria.place(x=25,y=40)
+
+# Lista de categorias
+categoria_funcao = ['Viagem', 'Alimentação']
+categoria = []
+
+for i in categoria_funcao:
+    categoria.append(i[1]) #pega apenas o primeiro elemento da lista, tirando o ID, por isso [1]
+
+combo_categoria_despesa = ttk.Combobox(frame_operacoes,width=12)
+combo_categoria_despesa['values'] = (categoria)
+combo_categoria_despesa.place(x=110,y=40)
+
+l_cal_despesas = Label(frame_operacoes,text='Data', height=1,anchor=NW,font=('Verdana 10'),bg='white')
+l_cal_despesas.place(x=25, y=70)
+
+e_cal_despesas = DateEntry(frame_operacoes,width=12,background = 'darkblue',foreground='white', borderwidth=2,year=2022)
+e_cal_despesas.place(x=110,y=70)
+
+# Valor ----------
+
+l_valor_despesas = Label(frame_operacoes, text="Valor",width=20,height=1,anchor=NW, font=('Ivy 10 '), bg='white')
+l_valor_despesas.place(x=25, y=100)
+e_valor_despesas = Entry(frame_operacoes, width=14, justify='left',relief="solid")
+e_valor_despesas.place(x=110, y=100)
+
+# Botao Inserir
+img_add_despesas  = Image.open('Button-Add-icon.png')
+img_add_despesas = img_add_despesas.resize((17,17))
+img_add_despesas = ImageTk.PhotoImage(img_add_despesas)
+
+botao_inserir_despesas = Button(frame_operacoes,image=img_add_despesas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_inserir_despesas.place(x=110, y=130)
+
+# operacao Excluir -----------------------
+l_n_categoria = Label(frame_operacoes, text="Excluir", height=1,anchor=NW, font=('Ivy 10 bold'), bg='white')
+l_n_categoria.place(x=25, y=190)
+
+img_delete  = Image.open('delete.png')
+img_delete = img_delete.resize((20, 20))
+img_delete = ImageTk.PhotoImage(img_delete)
+botao_deletar = Button(frame_operacoes, image=img_delete, compound=LEFT, anchor=NW, text="   Deletar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_deletar.place(x=110, y=190)
+
+# Configuracoes Receitas -----------------------------------
+
+l_descricao = Label(frame_configuracao, text="Insira novas receitas", height=1,anchor=NW,relief="flat", font=('Verdana 10 bold'),bg='white')
+l_descricao.place(x=10, y=5)
+
+l_cal_receitas = Label(frame_configuracao, text="Data", height=1,anchor=NW, font=('Ivy 10 '), bg='white')
+l_cal_receitas.place(x=10, y=40)
+e_cal_receitas = DateEntry(frame_configuracao, width=12, background='darkblue', foreground='white', borderwidth=2, year=2020)
+e_cal_receitas.place(x=110, y=41)
+
+l_valor_receitas = Label(frame_configuracao, text="Valor", height=1,anchor=NW, font=('Ivy 10 '), bg='white')
+l_valor_receitas.place(x=10, y=70)
+e_valor_receitas = Entry(frame_configuracao, width=14, justify='left',relief="solid")
+e_valor_receitas.place(x=110, y=71)
+
+# Botao Inserir
+img_add_receitas  = Image.open('Button-Add-icon.png')
+img_add_receitas = img_add_receitas.resize((17,17))
+img_add_receitas = ImageTk.PhotoImage(img_add_receitas)
+botao_inserir_receitas = Button(frame_configuracao, image=img_add_receitas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white')
+botao_inserir_receitas.place(x=110, y=111)
+
+
+# operacao Nova Categoria -----------------------
+
+l_n_categoria = Label(frame_configuracao, text="Categoria", height=1,anchor=NW, font=('Ivy 10 bold'), bg='white')
+l_n_categoria.place(x=10, y=160)
+e_n_categoria = Entry(frame_configuracao, width=14, justify='left',relief="solid")
+e_n_categoria.place(x=110, y=160)
+
+# Botao Inserir
+img_add_categoria  = Image.open('Button-Add-icon.png')
+img_add_categoria = img_add_categoria.resize((17,17))
+img_add_categoria = ImageTk.PhotoImage(img_add_categoria)
+botao_inserir_categoria = Button(frame_configuracao,image=img_add_categoria, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_inserir_categoria.place(x=110, y=190)
+
+
 
 
 percentual()
