@@ -2,6 +2,7 @@ from tkinter import *
 import customtkinter
 from PIL import Image,ImageTk
 from tkinter import ttk
+from tkinter import messagebox
 
 #importar barra de progresso
 from tkinter.ttk import Progressbar
@@ -13,6 +14,8 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from tkcalendar import Calendar, DateEntry
 from datetime import date
+
+from view import *
 
 root = Tk()
 
@@ -45,7 +48,84 @@ app_image = ImageTk.PhotoImage(app_image)
 app_logo = Label(frameTop, image=app_image, text="Orçamento Pessoal",width=900,compound=LEFT,padx=5,relief=RAISED,anchor=NW,font=('Roboto 18 bold'),bg='white')
 app_logo.place(x=0,y=0)
 
+# Funções -------------------------------------------------------------------
 
+global tree
+
+def inserir_categoria_b():
+    nome = e_n_categoria.get()
+    lista_inserir = [nome]
+    for i in lista_inserir:
+        if i == '':
+            messagebox.showerror('Erro','Preencha todos os campos')
+            return
+    # passando a lista para a função inserir gastos
+    inserir_categoria(lista_inserir)
+    messagebox.showinfo('Sucesso', 'Os dados foram inseridos!')
+
+    e_n_categoria.delete(0,'end')
+
+            # Pegando os valores da categoria
+    categoria_funcao = ver_categoria()
+    categoria = []
+            
+    for i in categoria_funcao:
+        categoria.append(i[1])
+
+            # atualizar a lista de categorias
+        combo_categoria_despesa['values'] = (categoria)
+
+# função inserir receitas
+def iserir_receita_b():
+    nome = 'Receita'
+    data = e_cal_receitas.get()
+    valor = e_valor_receitas.get()
+
+    lista_inserir = [nome,data,valor]
+    for i in lista_inserir:
+        if i == '':
+            messagebox.showerror('Erro','Preencha todos os campos')
+            return
+    
+    #chamando a função inserir receitas presentes na view
+    inserir_receitas(lista_inserir)
+    messagebox.showinfo('Sucesso', 'Os dados foram inseridos!')
+
+    e_cal_receitas.delete(0,'end')
+    e_valor_receitas.delete(0,'end')
+     
+    #atualizando dados
+    mostrar_renda()
+    percentual()
+    grafico_pie()
+    resumo()
+    grafBar()
+# função inserir despesas
+def inserir_despesas():
+    nome = combo_categoria_despesa.get()
+    data = e_cal_despesas.get()
+    valor = e_valor_despesas.get()
+
+    lista_inserir = [nome,data,valor]
+    for i in lista_inserir:
+        if i == '':
+            messagebox.showerror('Erro','Preencha todos os campos')
+            return
+    #chamando a função inserir despesas presentes na view
+    inserir_gastos(lista_inserir)
+    messagebox.showinfo('Sucesso', 'Os dados foram inseridos!')
+
+    combo_categoria_despesa.delete(0,'end')
+    e_cal_despesas.delete(0,'end')
+    e_valor_despesas.delete(0,'end')
+     
+    #atualizando dados
+    mostrar_renda()
+    percentual()
+    grafico_pie()
+    resumo()
+    grafBar()
+#-------------------------------------------------------------------------------------------------
 #percentual --
 def percentual():
     lbl_nome = Label(frameMid, text="Percentual Gasto",height=1,anchor=NW,font=('Verdana 14',),bg='white')
@@ -157,7 +237,7 @@ def mostrar_renda():
     # creating a treeview with dual scrollbars
     tabela_head = ['#Id','Categoria','Data','Valor']
 
-    lista_itens = [[0,2,3,4],[0,2,3,4],[0,2,3,4],[0,2,3,4]]
+    lista_itens = tabela()
     
     global tree
 
@@ -198,7 +278,7 @@ l_categoria = Label(frame_operacoes,text= 'Categoria', height=1,anchor=NW,font=(
 l_categoria.place(x=25,y=40)
 
 # Lista de categorias
-categoria_funcao = ['Viagem', 'Alimentação']
+categoria_funcao = ver_categoria()
 categoria = []
 
 for i in categoria_funcao:
@@ -226,7 +306,7 @@ img_add_despesas  = Image.open('Button-Add-icon.png')
 img_add_despesas = img_add_despesas.resize((17,17))
 img_add_despesas = ImageTk.PhotoImage(img_add_despesas)
 
-botao_inserir_despesas = Button(frame_operacoes,image=img_add_despesas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_inserir_despesas = Button(frame_operacoes,image=img_add_despesas,command=inserir_despesas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
 botao_inserir_despesas.place(x=110, y=130)
 
 # operacao Excluir -----------------------
@@ -258,7 +338,7 @@ e_valor_receitas.place(x=110, y=71)
 img_add_receitas  = Image.open('Button-Add-icon.png')
 img_add_receitas = img_add_receitas.resize((17,17))
 img_add_receitas = ImageTk.PhotoImage(img_add_receitas)
-botao_inserir_receitas = Button(frame_configuracao, image=img_add_receitas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white')
+botao_inserir_receitas = Button(frame_configuracao, image=img_add_receitas,command=iserir_receita_b, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white')
 botao_inserir_receitas.place(x=110, y=111)
 
 
@@ -273,7 +353,7 @@ e_n_categoria.place(x=110, y=160)
 img_add_categoria  = Image.open('Button-Add-icon.png')
 img_add_categoria = img_add_categoria.resize((17,17))
 img_add_categoria = ImageTk.PhotoImage(img_add_categoria)
-botao_inserir_categoria = Button(frame_configuracao,image=img_add_categoria, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_inserir_categoria = Button(frame_configuracao,image=img_add_categoria,command=inserir_categoria_b, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
 botao_inserir_categoria.place(x=110, y=190)
 
 
