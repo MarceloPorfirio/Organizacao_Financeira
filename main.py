@@ -125,6 +125,39 @@ def inserir_despesas():
     grafico_pie()
     resumo()
     grafBar()
+
+def deletar_dados():
+    try:
+        treev_dados = tree.focus()
+        treev_dicionario = tree.item(treev_dados)
+        treev_lista = treev_dicionario['values']
+        valor = treev_lista[0]
+        nome = treev_lista[1]
+
+        if nome == "Receita":
+            deletar_receitas([valor])
+            messagebox.showinfo('Sucesso','Os dados foram deletados!')
+
+            #atualizando dados
+            mostrar_renda()
+            percentual()
+            grafico_pie()
+            resumo()
+            grafBar()
+
+        else:
+            deletar_gastos([valor])
+            messagebox.showinfo('Sucesso','Os dados foram deletados!')
+
+            #atualizando dados
+            mostrar_renda()
+            percentual()
+            grafico_pie()
+            resumo()
+            grafBar()
+
+    except IndexError:
+        messagebox.showerror('Erro','Selecione os dados da Tabela.')
 #-------------------------------------------------------------------------------------------------
 #percentual --
 def percentual():
@@ -316,7 +349,7 @@ l_n_categoria.place(x=25, y=190)
 img_delete  = Image.open('delete.png')
 img_delete = img_delete.resize((20, 20))
 img_delete = ImageTk.PhotoImage(img_delete)
-botao_deletar = Button(frame_operacoes, image=img_delete, compound=LEFT, anchor=NW, text="   Deletar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_deletar = Button(frame_operacoes, image=img_delete, command=deletar_dados, compound=LEFT, anchor=NW, text="   Deletar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
 botao_deletar.place(x=110, y=190)
 
 # Configuracoes Receitas -----------------------------------
