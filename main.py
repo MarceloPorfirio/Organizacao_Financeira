@@ -156,7 +156,7 @@ def deletar_dados():
             resumo()
             grafBar()
 
-    except IndexError:
+    except IndexError: # se o index estiver vazio (id da tabela no caso)
         messagebox.showerror('Erro','Selecione os dados da Tabela.')
 #-------------------------------------------------------------------------------------------------
 #percentual --
