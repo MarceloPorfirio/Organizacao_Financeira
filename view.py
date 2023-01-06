@@ -1,4 +1,5 @@
 import sqlite3 as lite
+import pandas as pd
 
 con = lite.connect('dados.db')
 
@@ -114,3 +115,50 @@ def tabela():
         tabela_lista.append(i)
 
     return tabela_lista
+
+
+#função gráfico pie
+
+def pie_valores():
+    despesas = ver_gastos()
+    tabela_lista = []
+
+    for i in despesas:
+        tabela_lista.append(i)
+
+    dataFrame = pd.DataFrame(tabela_lista, columns= ['id','categoria','Data','valor'])
+    dataFrame = dataFrame.groupby('categoria')['valor'].sum()
+
+    lista_valores = dataFrame.values.tolist()
+    lista_categorias = []
+
+    for i in dataFrame.index:
+        lista_categorias.append(i)
+
+    return(lista_categorias,lista_valores)
+
+#Função percentual (barra)
+
+def percentual_valores():
+    # Receita Total ------------------------
+    receitas = ver_receitas()
+    receitas_lista = []
+
+    for i in receitas:
+        receitas_lista.append(i[3]) # valor está na posição 3
+
+    receita_total = sum(receitas_lista)
+
+    # Despesas Total ------------------------
+    despesas = ver_gastos()
+    despesas_lista = []
+
+    for i in despesas:
+        despesas_lista.append(i[3])
+
+    despesas_total = sum(despesas_lista)
+
+    # Saldo Total ------------------------
+    total = ((receita_total - despesas_total) / receita_total ) * 100
+
+    return[total]

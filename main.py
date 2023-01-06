@@ -167,9 +167,9 @@ def percentual():
 
     bar =  customtkinter.CTkProgressBar(frameMid,height=20,progress_color='lightblue')
     bar.place(x=10,y=35)
-    bar['value']= 50
+    bar['value']= percentual_valores()[0]
 
-    valor = 50
+    valor = percentual_valores()[0]
     lbl_porcentagem = Label(frameMid,text='{:,.2f}%'.format(valor),height=1,anchor=NW,font=('verdana 12'),bg='white')
     lbl_porcentagem.place(x=220,y=35)
 
@@ -236,8 +236,8 @@ def resumo():
 def grafico_pie():
     figura = plt.Figure(figsize=(5,3), dpi=90)
     ax = figura.add_subplot(111)
-    lista_valores = [345,225,534]
-    lista_categorias = ['Renda','Despesa','Saldo']
+    lista_valores = pie_valores()[1]
+    lista_categorias = pie_valores()[0]
 
      # only "explode" the 2nd slice (i.e. 'Hogs')
 
