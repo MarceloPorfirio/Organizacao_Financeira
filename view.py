@@ -62,7 +62,7 @@ def ver_receitas():
         for l in linha:
             lista_itens.append(l)
     return lista_itens
-print(ver_receitas())
+#print(ver_receitas())
 
 def ver_gastos():
     lista_itens = []
@@ -75,7 +75,7 @@ def ver_gastos():
             lista_itens.append(l)
     return(lista_itens)
 
-print(ver_gastos())
+#print(ver_gastos())
 
 def bar_valores():
     # Receita Total ------------------------
