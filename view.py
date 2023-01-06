@@ -83,20 +83,20 @@ def bar_valores():
     receitas_lista = []
 
     for i in receitas:
-        receitas_lista.append(i[3])
+        receitas_lista.append(i[3]) # valor está na posição 3
 
     receita_total = sum(receitas_lista)
 
     # Despesas Total ------------------------
-    receitas = ver_gastos()
+    despesas = ver_gastos()
     despesas_lista = []
 
-    for i in receitas:
+    for i in despesas:
         despesas_lista.append(i[3])
 
     despesas_total = sum(despesas_lista)
 
-    # Despesas Total ------------------------
+    # Saldo Total ------------------------
     saldo_total = receita_total - despesas_total
 
     return[receita_total,despesas_total,saldo_total]

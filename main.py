@@ -175,7 +175,7 @@ def percentual():
 
 def grafBar():
     lista_categorias = ['Renda','Despesas','Saldo']
-    lista_valores = [3000,2000,6236]
+    lista_valores = bar_valores()
 
     figura = plt.figure(figsize=(4,3.45),dpi=60)
     ax = figura.add_subplot(111)
@@ -210,7 +210,7 @@ def grafBar():
     canva.get_tk_widget().place(x=10, y=70)
 
 def resumo():
-    valor = [500,600,420]
+    valor = bar_valores()
 
     l_linha = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
     l_linha.place(x=309, y=52)
