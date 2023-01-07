@@ -58,7 +58,7 @@ def ver_receitas():
 
     with con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM Receitas")
+        cur.execute("SELECT id, categoria, adicionado_em, SUM (valor) FROM Receitas")
         linha = cur.fetchall()
         for l in linha:
             lista_itens.append(l)
