@@ -20,24 +20,24 @@ from view import *
 root = Tk()
 
 root.title('Gestão Pessoal')
-root.geometry('900x600')
+root.geometry('1000x600')
 root.configure(background='#e9edf5')
 root.resizable(width=FALSE, height=FALSE)
 
 colors = ['#5588bb', '#66bbbb','#99bb55', '#ee9944', '#444466', '#bb5555']
 
 #Frame top
-frameTop =  customtkinter.CTkFrame(root,fg_color='white', width=1043,height=40,relief = 'flat',border_width=1,border_color='#DCDCDC')
-frameTop.grid(row=0,column=0,pady=1)
+frameTop =  customtkinter.CTkFrame(root,fg_color='white', width=990,height=40,relief = 'flat',border_width=1,border_color='#DCDCDC')
+frameTop.place(relx=0.005,rely=0.01)
 
-frameMid =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=890,height=300,relief = 'raised',border_width=1,border_color='#DCDCDC')
-frameMid.grid(row=1,column=0,pady=1,padx=5,sticky=W)
+frameMid =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=990,height=300,relief = 'raised',border_width=1,border_color='#DCDCDC')
+frameMid.place(relx=0.005,rely=0.08)
 
-frameDown =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=890,height=300,relief = 'flat',border_width=1,border_color='#DCDCDC')
-frameDown.grid(row=2,column=0,pady=1,padx=5,sticky=W)
+frameDown =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=990,height=300,relief = 'flat',border_width=1,border_color='#DCDCDC')
+frameDown.place(relx=0.005,rely=0.58)
 
-frame_gra_pie = Frame(frameMid, width=580, height=250)
-frame_gra_pie.place(x=415, y=5)
+frame_gra_pie = Frame(frameMid, width=600, height=250)
+frame_gra_pie.place(x=430, y=5)
 
 
 
@@ -45,7 +45,7 @@ app_image = Image.open('iconDin.jpg')
 app_image = app_image.resize((35,35))
 app_image = ImageTk.PhotoImage(app_image)
 
-app_logo = Label(frameTop, image=app_image, text="Orçamento Pessoal",width=900,compound=LEFT,padx=5,relief=RAISED,anchor=NW,font=('Roboto 18 bold'),bg='white')
+app_logo = Label(frameTop, image=app_image, text="Orçamento Pessoal",width=990,compound=LEFT,padx=5,relief=RAISED,anchor=NW,font=('Roboto 18 bold'),bg='white')
 app_logo.place(x=0,y=0)
 
 # Funções -------------------------------------------------------------------
@@ -218,28 +218,28 @@ def resumo():
     valor = bar_valores()
 
     l_linha = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
-    l_linha.place(x=309, y=52)
+    l_linha.place(x=312, y=52)
     l_renda = Label(frameMid,text='Total Renda Mensal      '.upper(),anchor=NW, font=('verdana 12'),bg='white')
-    l_renda.place(x=309, y=35)
+    l_renda.place(x=312, y=35)
     l_valor_renda = Label(frameMid,text='R$ {:,.2f}'.format(valor[0]),anchor=NW, font=('verdana 12'),bg='white')
     l_valor_renda.place(x=309, y=65)
 
     l_linha2 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
-    l_linha2.place(x=309, y=132)
+    l_linha2.place(x=312, y=132)
     l_despesas = Label(frameMid,text='Total Despesas Mensais   '.upper(),anchor=NW, font=('verdana 12'),bg='white')
-    l_despesas.place(x=309, y=115)
+    l_despesas.place(x=312, y=115)
     l_valor_despesa = Label(frameMid,text='R$ {:,.2f}'.format(valor[1]),anchor=NW, font=('verdana 12'),bg='white')
-    l_valor_despesa.place(x=309, y=150)
+    l_valor_despesa.place(x=312, y=150)
 
     l_linha3 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='white')
-    l_linha3.place(x=309, y=207)
+    l_linha3.place(x=312, y=207)
     l_saldo = Label(frameMid,text='Total Saldo Mensal      '.upper(),anchor=NW, font=('verdana 12'),bg='white')
-    l_saldo.place(x=309, y=190)
+    l_saldo.place(x=312, y=190)
     l_valor_saldo = Label(frameMid,text='R$ {:,.2f}'.format(valor[2]),anchor=NW, font=('verdana 12'),bg='white')
-    l_valor_saldo.place(x=309, y=220)
+    l_valor_saldo.place(x=312, y=220)
 
 def grafico_pie():
-    figura = plt.Figure(figsize=(5,3), dpi=90)
+    figura = plt.Figure(figsize=(5,3), dpi=90) #dpi espessura da figura
     ax = figura.add_subplot(111)
     lista_valores = pie_valores()[1]
     lista_categorias = pie_valores()[0]
@@ -250,9 +250,9 @@ def grafico_pie():
     for i in lista_categorias:
         explode.append(0.05)
 
-    ax.pie(lista_valores, explode=explode, wedgeprops=dict(width=0.2), autopct='%1.1f%%',shadow=True, startangle=90)
+    ax.pie(lista_valores, explode=explode, wedgeprops=dict(width=0.25), autopct='%1.1f%%',shadow=True, startangle=90)
     ax.legend(lista_categorias
-    , loc="center right", bbox_to_anchor=(1.55, 0.50))
+    , loc="center right", bbox_to_anchor=(1.60, 0.50)) # largura e altura da legenda
 
     canva_categoria = FigureCanvasTkAgg(figura, frame_gra_pie)
     canva_categoria.get_tk_widget().grid(row=0, column=0)
@@ -260,13 +260,13 @@ def grafico_pie():
 #-------------------------------------------------------------------------------------------------------------------------------#
 
 # Frames para tabelas de baixo #
-frame_renda = Frame(frameDown, width=296, height=230,bg='white')
+frame_renda = Frame(frameDown, width=330, height=230,bg='white')
 frame_renda.grid(row=0,column=0,padx=5,pady=5)
 
-frame_operacoes = Frame(frameDown, width=280, height=230,bg='white')
+frame_operacoes = Frame(frameDown, width=330, height=230,bg='white')
 frame_operacoes.grid(row=0,column=1, padx=5)
 
-frame_configuracao = Frame(frameDown, width=232, height=230,bg='white')
+frame_configuracao = Frame(frameDown, width=284, height=230,bg='white')
 frame_configuracao.grid(row=0,column=2, padx=5)
 
 # funcao para mostrar_renda
