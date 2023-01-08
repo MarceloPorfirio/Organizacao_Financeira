@@ -19,7 +19,7 @@ from view import *
 
 root = Tk()
 
-root.title()
+root.title('Gestão Pessoal')
 root.geometry('900x600')
 root.configure(background='#e9edf5')
 root.resizable(width=FALSE, height=FALSE)
@@ -165,8 +165,13 @@ def percentual():
     lbl_nome.place(x=60,y=5),
 
 
-    bar =  customtkinter.CTkProgressBar(frameMid,height=20,progress_color='lightblue')
-    bar.place(x=10,y=35)
+    style = ttk.Style()
+    style.theme_use('default')
+    style.configure("black.Horizontal.TProgressbar", background='#daed6b')
+    style.configure("TProgressbar", thickness=25)
+
+    bar = Progressbar(frameMid, length=180,style='black.Horizontal.TProgressbar')
+    bar.place(x=10, y=35)
     bar['value']= percentual_valores()[0]
 
     valor = percentual_valores()[0]
