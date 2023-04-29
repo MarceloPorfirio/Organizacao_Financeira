@@ -23,6 +23,10 @@ root.title('Gestão Pessoal')
 root.geometry('1000x600')
 root.configure(background='#e9edf5')
 root.resizable(width=FALSE, height=FALSE)
+style = ttk.Style(root)
+style.configure("RoundedButton", padding=6, relief="flat",
+                foreground="#ffffff", background="#2c3e50")
+
 
 colors = ['#5588bb', '#66bbbb','#99bb55', '#ee9944', '#444466', '#bb5555']
 
