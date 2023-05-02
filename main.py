@@ -69,14 +69,14 @@ def inserir_categoria_b():
 
     e_n_categoria.delete(0,'end')
 
-            # Pegando os valores da categoria
+    # Pegando os valores da categoria
     categoria_funcao = ver_categoria()
     categoria = []
             
     for i in categoria_funcao:
         categoria.append(i[1])
 
-            # atualizar a lista de categorias
+    # atualizar a lista de categorias
         combo_categoria_despesa['values'] = (categoria)
 
 # função inserir receitas
@@ -174,13 +174,13 @@ def percentual():
     style.configure("black.Horizontal.TProgressbar", background='#daed6b')
     style.configure("TProgressbar", thickness=25)
 
-    bar = Progressbar(frameMid, length=180,style='black.Horizontal.TProgressbar')
+    bar = Progressbar(frameMid, length=200,style='black.Horizontal.TProgressbar')
     bar.place(x=10, y=35)
     bar['value']= percentual_valores()[0]
 
     valor = percentual_valores()[0]
     lbl_porcentagem = Label(frameMid,text='{:,.2f}%'.format(valor),height=1,anchor=NW,font=('verdana 12'),bg='white')
-    lbl_porcentagem.place(x=220,y=35)
+    lbl_porcentagem.place(x=225,y=35)
 
 def grafBar():
     lista_categorias = ['Renda','Despesas','Saldo']
