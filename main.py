@@ -40,8 +40,8 @@ frameMid.place(relx=0.005,rely=0.08)
 frameDown =  customtkinter.CTkFrame(root,corner_radius=8,fg_color='white', width=990,height=300,relief = 'flat',border_width=1,border_color='#DCDCDC')
 frameDown.place(relx=0.005,rely=0.58)
 
-frame_gra_pie = Frame(frameMid, width=600, height=250)
-frame_gra_pie.place(x=430, y=5)
+frame_gra_pie = Frame(frameMid, width=900, height=250)
+frame_gra_pie.place(x=460, y=5)
 
 
 
@@ -166,7 +166,7 @@ def deletar_dados():
 #percentual --
 def percentual():
     lbl_nome = Label(frameMid, text="Percentual Gasto",height=1,anchor=NW,font=('Verdana 14',),bg='white')
-    lbl_nome.place(x=60,y=5),
+    lbl_nome.place(x=60,y=5, width=120),
 
 
     style = ttk.Style()
@@ -226,21 +226,21 @@ def resumo():
     l_renda = Label(frameMid,text='Total Renda Mensal      '.upper(),anchor=NW, font=('verdana 12'),bg='white')
     l_renda.place(x=312, y=35)
     l_valor_renda = Label(frameMid,text='R$ {:,.2f}'.format(valor[0]),anchor=NW, font=('verdana 12'),bg='white')
-    l_valor_renda.place(x=309, y=65)
+    l_valor_renda.place(x=309, y=65,width=120)
 
     l_linha2 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
     l_linha2.place(x=312, y=132)
     l_despesas = Label(frameMid,text='Total Despesas Mensais   '.upper(),anchor=NW, font=('verdana 12'),bg='white')
     l_despesas.place(x=312, y=115)
     l_valor_despesa = Label(frameMid,text='R$ {:,.2f}'.format(valor[1]),anchor=NW, font=('verdana 12'),bg='white')
-    l_valor_despesa.place(x=312, y=150)
+    l_valor_despesa.place(x=312, y=150, width=120)
 
-    l_linha3 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='white')
+    l_linha3 = Label(frameMid,text='',width=215,height=1,anchor=NW, font=('Arial 1'),bg='#545454')
     l_linha3.place(x=312, y=207)
     l_saldo = Label(frameMid,text='Total Saldo Mensal      '.upper(),anchor=NW, font=('verdana 12'),bg='white')
     l_saldo.place(x=312, y=190)
     l_valor_saldo = Label(frameMid,text='R$ {:,.2f}'.format(valor[2]),anchor=NW, font=('verdana 12'),bg='white')
-    l_valor_saldo.place(x=312, y=220)
+    l_valor_saldo.place(x=312, y=220,width=120)
 
 def grafico_pie():
     figura = plt.Figure(figsize=(5,3), dpi=90) #dpi espessura da figura
@@ -259,7 +259,7 @@ def grafico_pie():
     , loc="center right", bbox_to_anchor=(1.60, 0.50)) # largura e altura da legenda
 
     canva_categoria = FigureCanvasTkAgg(figura, frame_gra_pie)
-    canva_categoria.get_tk_widget().grid(row=0, column=0)
+    canva_categoria.get_tk_widget().grid(row=1, column=1)
 
 #-------------------------------------------------------------------------------------------------------------------------------#
 
@@ -326,21 +326,21 @@ categoria = []
 for i in categoria_funcao:
     categoria.append(i[1]) #pega apenas o primeiro elemento da lista, tirando o ID, por isso [1]
 
-combo_categoria_despesa = ttk.Combobox(frame_operacoes,width=12)
+combo_categoria_despesa = ttk.Combobox(frame_operacoes,width=14)
 combo_categoria_despesa['values'] = (categoria)
 combo_categoria_despesa.place(x=110,y=40)
 
 l_cal_despesas = Label(frame_operacoes,text='Data', height=1,anchor=NW,font=('Verdana 10'),bg='white')
 l_cal_despesas.place(x=25, y=70)
 
-e_cal_despesas = DateEntry(frame_operacoes,width=12,background = 'darkblue',foreground='white', borderwidth=2,year=2022)
+e_cal_despesas = DateEntry(frame_operacoes,width=14,background = 'darkblue',foreground='white', borderwidth=2,year=2022)
 e_cal_despesas.place(x=110,y=70)
 
 # Valor ----------
 
 l_valor_despesas = Label(frame_operacoes, text="Valor",width=20,height=1,anchor=NW, font=('Ivy 10 '), bg='white')
 l_valor_despesas.place(x=25, y=100)
-e_valor_despesas = Entry(frame_operacoes, width=14, justify='left',relief="solid")
+e_valor_despesas = Entry(frame_operacoes, width=16, justify='left',relief="solid")
 e_valor_despesas.place(x=110, y=100)
 
 # Botao Inserir
@@ -348,7 +348,7 @@ img_add_despesas  = Image.open('Button-Add-icon.png')
 img_add_despesas = img_add_despesas.resize((17,17))
 img_add_despesas = ImageTk.PhotoImage(img_add_despesas)
 
-botao_inserir_despesas = Button(frame_operacoes,image=img_add_despesas,command=inserir_despesas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_inserir_despesas = Button(frame_operacoes,image=img_add_despesas,command=inserir_despesas, compound=LEFT, anchor=NW, text=" Adicionar".upper(), width=90, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
 botao_inserir_despesas.place(x=110, y=130)
 
 # operacao Excluir -----------------------
@@ -358,7 +358,7 @@ l_n_categoria.place(x=25, y=190)
 img_delete  = Image.open('delete.png')
 img_delete = img_delete.resize((20, 20))
 img_delete = ImageTk.PhotoImage(img_delete)
-botao_deletar = Button(frame_operacoes, image=img_delete, command=deletar_dados, compound=LEFT, anchor=NW, text="   Deletar".upper(), width=80, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
+botao_deletar = Button(frame_operacoes, image=img_delete, command=deletar_dados, compound=LEFT, anchor=NW, text="   Deletar".upper(), width=90, overrelief=RIDGE,  font=('ivy 7 bold'),bg='white' )
 botao_deletar.place(x=110, y=190)
 
 # Configuracoes Receitas -----------------------------------
@@ -368,12 +368,12 @@ l_descricao.place(x=10, y=5)
 
 l_cal_receitas = Label(frame_configuracao, text="Data", height=1,anchor=NW, font=('Ivy 10 '), bg='white')
 l_cal_receitas.place(x=10, y=40)
-e_cal_receitas = DateEntry(frame_configuracao, width=12, background='darkblue', foreground='white', borderwidth=2, year=2020)
+e_cal_receitas = DateEntry(frame_configuracao, width=13, background='darkblue', foreground='white', borderwidth=2, year=2020)
 e_cal_receitas.place(x=110, y=41)
 
 l_valor_receitas = Label(frame_configuracao, text="Valor", height=1,anchor=NW, font=('Ivy 10 '), bg='white')
 l_valor_receitas.place(x=10, y=70)
-e_valor_receitas = Entry(frame_configuracao, width=14, justify='left',relief="solid")
+e_valor_receitas = Entry(frame_configuracao, width=15, justify='left',relief="solid")
 e_valor_receitas.place(x=110, y=71)
 
 # Botao Inserir
